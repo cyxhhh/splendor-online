@@ -7,6 +7,8 @@ const WebSocket = require('ws');
 const ROOT = __dirname;
 const PORT = Number(process.env.PORT || 8787);
 const HOST = process.env.HOST || '0.0.0.0';
+const ROOM_TTL_MS = Number(process.env.ROOM_TTL_MS || 30 * 60 * 1000);
+const ROOM_CLEANUP_INTERVAL_MS = Number(process.env.ROOM_CLEANUP_INTERVAL_MS || 60 * 1000);
 const rooms = new Map();
 const mime = {'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.svg':'image/svg+xml','.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.webp':'image/webp','.json':'application/json; charset=utf-8'};
 
@@ -31,9 +33,17 @@ const publicRoom = room => ({code:room.code,hostId:room.hostId,maxPlayers:room.m
 function broadcast(room, message) { for(const p of room.players) if(p.ws) send(p.ws,message); }
 function broadcastRoom(room) { broadcast(room,{type:'room',room:publicRoom(room)}); }
 function fail(ws, message) { send(ws,{type:'error',message}); }
+function updateEmptySince(room) {
+  room.emptySince = room.players.some(p => p.ws) ? null : (room.emptySince || Date.now());
+}
+function cleanupEmptyRooms(now = Date.now()) {
+  for (const [code, room] of rooms) {
+    if (room.emptySince && now - room.emptySince >= ROOM_TTL_MS) rooms.delete(code);
+  }
+}
 function bindPlayer(ws, room, player) {
   if(player.ws && player.ws !== ws) { try { player.ws.close(4001,'Session replaced'); } catch {} }
-  player.ws=ws; ws.room=room; ws.player=player;
+  player.ws=ws; room.emptySince=null; ws.room=room; ws.player=player;
   send(ws,{type:'joined',room:publicRoom(room),playerId:player.id,secret:player.secret,game:room.game});
   broadcastRoom(room);
   if(room.game) send(ws,{type:'game',game:room.game});
@@ -49,7 +59,7 @@ wss.on('connection',(ws)=>{
       if(ws.player) return fail(ws,'Already in a room');
       const name=String(msg.name||'').trim().slice(0,16); const maxPlayers=Number(msg.maxPlayers);
       if(!name || ![2,3,4].includes(maxPlayers)) return fail(ws,'Please enter a name and choose 2¨C4 seats');
-      const room={code:roomCode(),hostId:null,maxPlayers,players:[],game:null,version:0};
+      const room={code:roomCode(),hostId:null,maxPlayers,players:[],game:null,version:0,emptySince:null};
       const player={id:crypto.randomUUID(),secret:crypto.randomBytes(24).toString('hex'),name,ws}; room.hostId=player.id; room.players.push(player); rooms.set(room.code,room); bindPlayer(ws,room,player); return;
     }
     if(msg.type==='join') {
@@ -82,14 +92,16 @@ wss.on('connection',(ws)=>{
       broadcast(room,{type:'game',game:room.game,version:room.version}); return;
     }
     if(msg.type==='leave') {
-      player.ws=null; ws.room=null; ws.player=null; broadcastRoom(room); return;
+      player.ws=null; ws.room=null; ws.player=null; updateEmptySince(room); broadcastRoom(room); return;
     }
     fail(ws,'Unknown command');
   });
-  ws.on('close',()=>{if(ws.player && ws.player.ws===ws){ws.player.ws=null;broadcastRoom(ws.room);}});
+  ws.on('close',()=>{if(ws.player && ws.player.ws===ws){const room=ws.room;ws.player.ws=null;updateEmptySince(room);broadcastRoom(room);}});
 });
 server.listen(PORT,HOST,()=>console.log(`Splendor server listening on http://${HOST}:${PORT}`));
 
+const roomCleanup = setInterval(cleanupEmptyRooms, ROOM_CLEANUP_INTERVAL_MS);
+roomCleanup.unref();
 const heartbeat = setInterval(()=>{
   for(const ws of wss.clients){
     if(!ws.isAlive){ws.terminate();continue;}
@@ -98,4 +110,4 @@ const heartbeat = setInterval(()=>{
   }
 },25000);
 heartbeat.unref();
-server.on('close',()=>clearInterval(heartbeat));
+server.on('close',()=>{clearInterval(heartbeat);clearInterval(roomCleanup);});
