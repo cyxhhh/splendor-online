@@ -1,0 +1,14 @@
+node_modules/
+.gradle/
+.gradle-runtime/
+.jdk21/
+.npm-cache/
+.tmp/
+www/
+__edge-profile*/
+android/.gradle/
+android/build/
+android/app/build/
+*.apk
+*.zip
+preview*.png

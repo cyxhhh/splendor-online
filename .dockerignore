@@ -1,0 +1,17 @@
+.git
+.gitignore
+node_modules
+android
+www
+.gradle
+.gradle-runtime
+.jdk21
+.npm-cache
+.tmp
+__edge-profile*
+preview*.png
+*.apk
+*.zip
+README.md
+start-server.bat
+capacitor.config.json

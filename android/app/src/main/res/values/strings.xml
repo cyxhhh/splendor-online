@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Splendor</string>
+    <string name="title_activity_main">Splendor</string>
+    <string name="package_name">com.splendor.table</string>
+    <string name="custom_url_scheme">com.splendor.table</string>
+</resources>

@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+<defs>
+ <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#07121d"/><stop offset=".48" stop-color="#263943"/><stop offset=".72" stop-color="#7b5739"/><stop offset="1" stop-color="#10231f"/></linearGradient>
+ <radialGradient id="haze"><stop stop-color="#e1aa62" stop-opacity=".8"/><stop offset=".35" stop-color="#bb7747" stop-opacity=".3"/><stop offset="1" stop-color="#1c2b2c" stop-opacity="0"/></radialGradient>
+ <linearGradient id="felt" y2="1"><stop stop-color="#173b35"/><stop offset=".35" stop-color="#0d2a25"/><stop offset="1" stop-color="#071716"/></linearGradient>
+ <linearGradient id="curtainL"><stop stop-color="#111722"/><stop offset=".5" stop-color="#481d23"/><stop offset="1" stop-color="#180e15"/></linearGradient>
+ <linearGradient id="curtainR"><stop stop-color="#1b1015"/><stop offset=".5" stop-color="#532027"/><stop offset="1" stop-color="#101923"/></linearGradient>
+ <pattern id="grain" width="23" height="21" patternUnits="userSpaceOnUse"><path d="M0 4h12M14 15h9M4 20h5" stroke="#d8b877" stroke-opacity=".055"/><circle cx="18" cy="4" r=".7" fill="#e9cb8c" fill-opacity=".08"/></pattern>
+ <pattern id="windows" width="48" height="54" patternUnits="userSpaceOnUse"><rect x="12" y="15" width="4" height="9" fill="#e5b96d" opacity=".65"/><rect x="32" y="32" width="3" height="7" fill="#f3d48b" opacity=".52"/></pattern>
+ <filter id="soft"><feGaussianBlur stdDeviation="18"/></filter>
+ <filter id="glow"><feGaussianBlur stdDeviation="8"/></filter>
+</defs>
+<rect width="1920" height="1080" fill="url(#sky)"/>
+<ellipse cx="970" cy="470" rx="780" ry="300" fill="url(#haze)"/>
+<circle cx="1010" cy="403" r="110" fill="#efbd77" opacity=".2" filter="url(#soft)"/>
+<path d="M0 490 175 356 310 443 480 310 620 438 825 300 978 428 1160 290 1320 428 1495 310 1660 431 1805 330 1920 410V650H0Z" fill="#111f25" opacity=".8"/>
+<path d="M0 538 150 450 310 520 470 394 630 510 810 390 960 517 1130 380 1300 520 1475 401 1650 530 1800 420 1920 482V700H0Z" fill="#172629"/>
+<!-- distant renaissance city -->
+<g fill="#111b1d" stroke="#a17a4d" stroke-opacity=".24" stroke-width="3">
+ <path d="M80 682V546h75v-57l41-42 40 42v57h45v136Z"/><path d="M170 490h53l-26-46Z"/>
+ <path d="M300 683V542h60V454h35V402h20v52h42v229Z"/><path d="M374 402h40l-20-72Z"/>
+ <path d="M490 681V518h74V420h28V365h22v55h62v261Z"/><path d="M586 365h40l-20-82Z"/>
+ <path d="M726 682V492h89V430h42V383h25v47h70v252Z"/><path d="M851 383h43l-21-82Z"/>
+ <path d="M1010 682V509h62V433h35V380h23v53h54v249Z"/><path d="M1100 380h42l-21-78Z"/>
+ <path d="M1228 682V470h82V411h42V345h26v66h62v271Z"/><path d="M1342 345h45l-22-83Z"/>
+ <path d="M1500 683V518h54V455h44V402h24v53h66v228Z"/><path d="M1598 402h44l-22-75Z"/>
+ <path d="M1710 683V520h66v-86h36v-58h25v58h42v249Z"/><path d="M1800 376h44l-22-78Z"/>
+</g>
+<path d="M70 687h1790v92H70z" fill="url(#windows)" opacity=".52"/>
+<!-- warm windows -->
+<g fill="#f2bd6d" opacity=".64"><rect x="117" y="581" width="11" height="20"/><rect x="195" y="551" width="10" height="18"/><rect x="344" y="583" width="11" height="18"/><rect x="526" y="560" width="11" height="23"/><rect x="614" y="518" width="12" height="25"/><rect x="782" y="552" width="12" height="24"/><rect x="882" y="491" width="12" height="25"/><rect x="1056" y="563" width="12" height="20"/><rect x="1156" y="479" width="12" height="25"/><rect x="1290" y="528" width="12" height="25"/><rect x="1392" y="458" width="12" height="24"/><rect x="1550" y="553" width="12" height="25"/><rect x="1639" y="498" width="12" height="25"/><rect x="1760" y="553" width="12" height="25"/></g>
+<!-- tabletop -->
+<path d="M0 686Q960 620 1920 686V1080H0Z" fill="url(#felt)"/>
+<path d="M0 708Q960 641 1920 708V1080H0Z" fill="url(#grain)" opacity=".7"/>
+<path d="M35 720Q960 650 1885 720V1044H35Z" fill="none" stroke="#c49b5c" stroke-opacity=".38" stroke-width="3"/>
+<path d="M54 737Q960 674 1866 737V1027H54Z" fill="none" stroke="#d1a966" stroke-opacity=".16" stroke-width="2"/>
+<ellipse cx="960" cy="864" rx="650" ry="238" fill="none" stroke="#deb46e" stroke-opacity=".055" stroke-width="4"/>
+<!-- candle pools at sides -->
+<g filter="url(#glow)" opacity=".3"><ellipse cx="90" cy="680" rx="90" ry="115" fill="#d69149"/><ellipse cx="1820" cy="671" rx="100" ry="125" fill="#d69149"/></g>
+<!-- rich cloth at lower corners -->
+<path d="M0 875Q120 806 208 862T389 942Q302 1007 246 1080H0Z" fill="url(#curtainL)"/>
+<path d="M0 930Q98 866 159 908T318 977Q250 1040 193 1080H0Z" fill="none" stroke="#9b6d4c" stroke-opacity=".5" stroke-width="5"/>
+<path d="M1920 858Q1785 808 1690 883T1514 951Q1608 1013 1663 1080H1920Z" fill="url(#curtainR)"/>
+<path d="M1920 927Q1812 862 1747 910T1584 982Q1654 1040 1710 1080H1920Z" fill="none" stroke="#a87850" stroke-opacity=".48" stroke-width="5"/>
+<!-- vignette -->
+<rect width="1920" height="1080" fill="url(#grain)" opacity=".5"/>
+<rect width="1920" height="1080" fill="none" stroke="#020608" stroke-width="96" opacity=".72"/>
+</svg>
